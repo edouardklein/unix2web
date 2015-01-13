@@ -9,10 +9,13 @@ Purpose
 =============
 
 You have an UNIX filter that does one job and do it well. For example it converts a .doc file to PDF :
+
     doc2pdf < file.doc >file.pdf
 
 This tool lets you host a nice web page where people can upload the input file and download the output file. This is
 useful if UNIX-disabled people need to use your filter.
+
+.. image:: screenshot.png
 
 In a matter of minutes you can make an unix script available to the world on e.g. an AWS EC2 instance.
 
@@ -24,7 +27,7 @@ or its dependencies).
 
 Clone the repo somewhere :
 
-    git clone https://github.com/edouardklein/unix2web/
+    git clone https://github.com/edouardklein/unix2web.git
 
 Change the index.html file to your liking (most notably the title and description).
 
@@ -33,7 +36,7 @@ to only run one filter on the server).
 
 Same procedure for 100web2unix.conf
 
-Same procedure for unix2web.py
+Same procedure for unix2web.py. The UNIX command to run is line 136.
 
 Review the install.sh file, modify if necessary, then upload all the files on your server and run install.sh
     scp -i private_key.pem *.* login@example.com:/tmp/

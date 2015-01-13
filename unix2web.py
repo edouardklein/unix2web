@@ -133,7 +133,7 @@ def upload_file():
                 logging.debug('saving on '+os.path.join(tmpdir, 'input'))
                 file.save(os.path.join(tmpdir, 'input'))
                 (_,output_file_name) = mkstemp()
-                p = Popen("(date>&2; sed s/the web/UNIX/gI <input)>"+output_file_name, shell=True, cwd=tmpdir, stderr=PIPE)
+                p = Popen('(date>&2; sed "s/the web/UNIX/gI" <input)>'+output_file_name, shell=True, cwd=tmpdir, stderr=PIPE)
                 (_,stderr) = p.communicate()
                 logging.debug('Got stderr : '+stderr)
                 return jsonify(stderr=stderr, outputfile_url=output_file_name)

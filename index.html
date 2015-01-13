@@ -74,7 +74,7 @@ $(function() {
     <h1>unix2web</h1>
     <p>Make any UNIX filter accessible wia the web. For demo purposes we use a simple sed one liner that changes
         all instances of "the web" to "UNIX" and echoes the date on stderr :
-        <code>(date>&2; sed s/the web/UNIX/gI <input)>output</code>.</p>
+        <code>(date&gt;&amp;2; sed s/the web/UNIX/gI &lt;input)&gt;output</code>.</p>
 </div>
 <form action="" method=post enctype=multipart/form-data id="upload-file">
 <div class="row">
@@ -97,11 +97,6 @@ $(function() {
     <div class="col-md-10 col-md-offset-1">
             <pre id="stderr" style="margin-top:1em;"></pre>
     </div>
-</div>
-<div class="row">
-<div class="col-md-8 col-md-offset-1">
-                        Output file : <a id="outputfile" href=""></a>
-</div>
 </div>
 <div class="row">
 <div class="col-md-8 col-md-offset-1">
