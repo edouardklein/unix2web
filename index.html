@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<!--AJAX upload code from https://stackoverflow.com/questions/18334717/how-to-upload-a-file-using-an-ajax-call-in-flask . Thanks !-->
+<!--Nice file input code from http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/ . Thanks -->
+<!--unix2web is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Foobar is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with unix2web.  If not, see <http://www.gnu.org/licenses/>.-->
+<head>
+    <title>Test unix2web page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).on('change', '.btn-file :file', function() {
+  var input = $(this),
+      numFiles = input.get(0).files ? input.get(0).files.length : 1,
+      label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+  input.trigger('fileselect', [numFiles, label]);
+});
+
+$(document).ready( function() {
+    $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+        var input = $(this).parents('.input-group').find(':text'),
+            log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if( input.length ) {
+            input.val(log);
+        } else {
+            if( log ) alert(log);
+        }
+
+    });
+});
+//from https://stackoverflow.com/questions/18334717/how-to-upload-a-file-using-an-ajax-call-in-flask
+$(function() {
+    $('#upload-file-btn').click(function(e) {
+        e.preventDefault() //Took me ages to find this. Thanks to https://stackoverflow.com/questions/20238452/staying-on-page-depending-on-value-jquery
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            async: false,
+            success: function(data) {
+                console.log(data);
+                $('#stderr').text(data['stderr']);
+                $('#outputfile').text(data['outputfile_url']);
+                $('#outputfile').attr('href',data['outputfile_url']);
+            },
+            error: function(data){
+                console.log('error')
+            },
+        });
+    });
+});
+    </script>
+</head>
+<body class="container">
+<div class="row jumbotron">
+    <h1>unix2web</h1>
+    <p>Make any UNIX filter accessible wia the web. For demo purposes we use a simple sed one liner that changes
+        all instances of "the web" to "UNIX" and echoes the date on stderr :
+        <code>(date>&2; sed s/the web/UNIX/gI <input)>output</code>.</p>
+</div>
+<form action="" method=post enctype=multipart/form-data id="upload-file">
+<div class="row">
+    <div class="col-md-8 col-md-offset-1">
+        <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Input file&hellip; <input type="file" name="file" multiple>
+                    </span>
+                </span>
+            <input type="text" class="form-control" readonly>
+        </div>
+    </div>
+      <div class='col-md-1'>
+         <button id="upload-file-btn" class="btn btn-success">Run !</button>
+        </div>
+</div>
+</form>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+            <pre id="stderr" style="margin-top:1em;"></pre>
+    </div>
+</div>
+<div class="row">
+<div class="col-md-8 col-md-offset-1">
+                        Output file : <a id="outputfile" href=""></a>
+</div>
+</div>
+<div class="row">
+<div class="col-md-8 col-md-offset-1">
+                        Output file : <a id="outputfile" href=""></a>
+</div>
+</div>
+<a href="https://github.com/edouardklein/unix2web"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+</body>
+</html>
