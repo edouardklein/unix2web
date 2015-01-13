@@ -39,6 +39,7 @@ Same procedure for 100web2unix.conf
 Same procedure for unix2web.py. The UNIX command to run is line 136.
 
 Review the install.sh file, modify if necessary, then upload all the files on your server and run install.sh
+
     scp -i private_key.pem *.* login@example.com:/tmp/
     ssh -i private_key.pem login@example.com 'cd /tmp/ && sudo sh install.sh'
 
