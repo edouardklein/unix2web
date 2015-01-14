@@ -5,11 +5,11 @@ APPNAME=unix2web
 INSTALLDIR=/var/www/$APPNAME
 sudo yes | apt-get install apache2 libapache2-mod-wsgi python-flask
 sudo mkdir -p $INSTALLDIR
-sudo mv /tmp/index.html $INSTALLDIR/
-sudo mv /tmp/index.css $INSTALLDIR/
-sudo mv /tmp/$APPNAME.py $INSTALLDIR/
-sudo mv /tmp/$APPNAME.wsgi $INSTALLDIR/
-sudo mv /tmp/100$APPNAME.conf /etc/apache2/sites-available
+sudo cp index.html $INSTALLDIR/
+sudo cp index.css $INSTALLDIR/
+sudo cp $APPNAME.py $INSTALLDIR/
+sudo cp $APPNAME.wsgi $INSTALLDIR/
+sudo cp 100$APPNAME.conf /etc/apache2/sites-available
 sudo a2dissite 000-default
 sudo a2ensite 100$APPNAME
 sudo /etc/init.d/apache2 restart
